@@ -1,12 +1,18 @@
 <?php
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "portfolio_dbase";
+$host = "gateway01.ap-northeast-1.prod.aws.tidbcloud.com";
+$port = 4000;
+$db   = "portfolio_dbase";
+$user = "4UCXkB8duQNEPVC.root";
+$pass = "otHufQODKCa7HBi0";
 
-$conn = new mysqli($host, $user, $password, $database);
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4";
 
-if ($conn->connect_error) {
-    die("Database Connection Failed: " . $conn->connect_error);
+try {
+    $pdo = new PDO($dsn, $user, $pass, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ]);
+    echo "Connected to TiDB!";
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
 }
 ?>
