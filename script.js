@@ -313,7 +313,22 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
         method: "POST",
         body: formData
     })
-    .then(res => res.json())
+    .then(async (res) => {
+        const raw = await res.text();
+        let data;
+
+        try {
+            data = JSON.parse(raw);
+        } catch (error) {
+            throw new Error(raw || "Unexpected server response");
+        }
+
+        if (!res.ok) {
+            throw new Error(data.message || "Request failed");
+        }
+
+        return data;
+    })
     .then(data => {
         if (data.status === "success") {
             alert("✅ Message sent successfully!");

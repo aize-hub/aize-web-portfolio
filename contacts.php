@@ -2,11 +2,21 @@
 ob_start();
 header('Content-Type: application/json');
 
-require_once "db.php";
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require 'vendor/autoload.php';
+
+try {
+    require_once "db.php";
+} catch (Throwable $e) {
+    http_response_code(500);
+    ob_end_clean();
+    echo json_encode([
+        "status" => "error",
+        "message" => $e->getMessage()
+    ]);
+    exit;
+}
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     ob_end_clean();
