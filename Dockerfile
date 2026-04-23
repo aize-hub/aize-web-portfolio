@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
-# Install MySQL PDO driver
-RUN docker-php-ext-install pdo pdo_mysql
+# Install MySQL drivers used by the app
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 COPY . /var/www/html/
 
