@@ -1,12 +1,12 @@
 <?php
 mysqli_report(MYSQLI_REPORT_OFF);
 $defaultDatabase = 'railway';
-$defaultHost = 'mysql.railway.internal';
-$defaultPort = 3306;
+$defaultHost = 'shortline.proxy.rlwy.net';
+$defaultPort = 34958;
 $defaultUser = 'root';
 $defaultPass = 'FFXIsREtWZSPmuwCyBcpqdPSmsAZyrFC';
 
-$databaseUrl = getenv('MYSQL_URL') ?: getenv('MYSQL_PUBLIC_URL') ?: '';
+$databaseUrl = getenv('MYSQL_PUBLIC_URL') ?: getenv('MYSQL_URL') ?: getenv('DATABASE_URL') ?: '';
 
 if ($databaseUrl !== '') {
     $parsedUrl = parse_url($databaseUrl);
