@@ -8,7 +8,7 @@ require 'vendor/autoload.php';
 
 try {
     require_once "db.php";
-} catch (Throwable $e) {
+} catch (Throwable $e) {    
     http_response_code(500);
     ob_end_clean();
     echo json_encode([
@@ -45,23 +45,6 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 // ── Save to Database ──────────────────────────────────────────────────────────
-$createTableSql = "
-CREATE TABLE IF NOT EXISTS contacts (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    subject VARCHAR(255) NOT NULL,
-    message TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)";
-
-if (!$conn->query($createTableSql)) {
-    ob_end_clean();
-    echo json_encode(["status" => "error", "message" => "DB table setup failed: " . $conn->error]);
-    $conn->close();
-    exit;
-}
-
 $stmt = $conn->prepare("INSERT INTO contacts (name, email, subject, message) VALUES (?, ?, ?, ?)");
 
 if (!$stmt) {
